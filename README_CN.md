@@ -1,4 +1,4 @@
-[中文](https://github.com/WeCanSTU/AriesSDK/blob/main/README_CN.md) / [English](https://github.com/WeCanSTU/AriesSDK/blob/main/README.md)
+[中文](https://gitee.com/WeCanSTU/AriesSDK/blob/main/README_CN.md) / [English](https://gitee.com/WeCanSTU/AriesSDK/blob/main/README.md)
 
 # AriesSDK 简介
 
