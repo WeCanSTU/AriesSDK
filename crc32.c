@@ -1,12 +1,14 @@
 #include "crc32.h"
 
-
-
 #ifdef MAKE_CRC32_TABLE
 
+#if defined(__C51__)
+static uint32_t xdata crc_table[256];
+#else
 static uint32_t crc_table[256];
-static int crc_table_computed = 0;
+#endif
 
+static int crc_table_computed = 0;
 static void make_crc_table(void)
 {
     uint32_t c;
@@ -26,7 +28,11 @@ static void make_crc_table(void)
 
 #else
 
+#if defined(__C51__)
+static const uint32_t xdata crc_table[256] = {
+#else
 static const uint32_t crc_table[256] = {
+#endif
     0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,
     0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3,
     0x0EDB8832, 0x79DCB8A4, 0xE0D5E91E, 0x97D2D988,
@@ -95,6 +101,28 @@ static const uint32_t crc_table[256] = {
 
 #endif
 
+#if defined(__C51__)
+uint32_t crc32(uint32_t crc, uint32_t addr, uint32_t len)
+{
+    uint32_t c;
+
+#ifdef MAKE_CRC32_TABLE
+    if (crc_table_computed == 0) {
+        make_crc_table();
+        crc_table_computed = 1;
+    }
+#endif
+
+    c = crc ^ 0xffffffffL;
+
+    while (len) {
+        c = crc_table[(c ^ (*(uint8_t code *)(addr++))) & 0xff] ^ (c >> 8);
+        len--;
+    }
+
+    return c ^ 0xffffffffL;
+}
+#else
 uint32_t crc32(uint32_t crc, const uint8_t *buf, uint32_t len)
 {
     uint32_t c;
@@ -116,4 +144,5 @@ uint32_t crc32(uint32_t crc, const uint8_t *buf, uint32_t len)
     return c ^ 0xffffffffL;
 }
 
+#endif
 

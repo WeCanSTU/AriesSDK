@@ -41,6 +41,23 @@ ext uint32_t user_i2c_read(TwoWireParams *params);
  */
 ext uint32_t user_i2c_write(TwoWireParams *params);
 
+
+/**
+ * @brief Checks if an I2C device is ready to communicate.
+ *
+ * @param slaveAddr The 7-bit or 10-bit I2C slave address of the device to check.
+ *                  For 7-bit addressing, the address should be in the range 0x00 to 0x7F.
+ * @return Status of the device readiness:
+ *         - 0: Device is ready (responds to the address).
+ *         - Non-zero: Device is not ready or an error occurred (e.g., no ACK received).
+ *
+ * This function sends a start condition and the slave address on the I2C bus to
+ * determine if the specified device is present and ready to respond. It does not
+ * perform any data transfer beyond the address check. Typically used for device
+ * detection or to verify communication before read/write operations.
+ */
+ext uint8_t user_i2c_is_device_ready(uint8_t slaveAddr);
+
 #ifdef __cplusplus
 }
 #endif
