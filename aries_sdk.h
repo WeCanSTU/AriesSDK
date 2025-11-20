@@ -26,7 +26,9 @@ __ARIES_SDK_STATIC_INLINE void aries_sdk_init(void)
 /// This function jumps to the application start address by calling the user-defined IAP jump function to execute the application.
 __ARIES_SDK_STATIC_INLINE void aries_sdk_load_app(void)
 {
+#if !defined(__C51__) || defined(__C51_ENABLE_IAP__)
     user_iap_jump(); ///< Jumps to the application start address to execute the application
+#endif    
 }
 
 #ifdef __cplusplus
